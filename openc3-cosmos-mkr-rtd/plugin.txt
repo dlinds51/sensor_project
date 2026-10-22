@@ -1,0 +1,7 @@
+# Custom RTD plugin, using the same serial bridge and packet framing
+# as https://github.com/OpenC3/openc3-cosmos-arduino-sensor-kit
+VARIABLE target_name MKR_RTD
+TARGET MKR_RTD <%= target_name %>
+INTERFACE <%= target_name %>_INT tcpip_client_interface.rb host.docker.internal 2950 2950 10.0 nil
+  MAP_TARGET <%= target_name %>
+  PROTOCOL READ LengthProtocol 32 8 5 1 LITTLE_ENDIAN 5 0x3412CDAB nil false

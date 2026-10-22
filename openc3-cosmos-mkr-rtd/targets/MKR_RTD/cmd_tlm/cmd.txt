@@ -1,0 +1,13 @@
+# Three-byte commands identical in format to the reference tutorial.
+COMMAND MKR_RTD SET_LED LITTLE_ENDIAN "Turn the Arduino built-in LED on or off"
+  PARAMETER SYNC 0 8 UINT 0x11 0x11 0x11 "Command marker"
+  ID_PARAMETER ID 8 8 UINT 1 1 1 "Set LED command ID"
+  PARAMETER STATE 16 8 UINT 0 1 0 "LED control"
+    STATE OFF 0
+    STATE ON 1
+
+COMMAND MKR_RTD SET_PERIOD LITTLE_ENDIAN "Set RTD telemetry period, seconds"
+  PARAMETER SYNC 0 8 UINT 0x11 0x11 0x11 "Command marker"
+  ID_PARAMETER ID 8 8 UINT 2 2 2 "Set period command ID"
+  PARAMETER SECONDS 16 8 UINT 1 60 1 "Telemetry interval in seconds"
+    UNITS Seconds s

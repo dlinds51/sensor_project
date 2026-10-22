@@ -1,0 +1,16 @@
+# The LENGTH protocol removes the first 5 on-wire bytes before
+# COSMOS sees these items: 4-byte sync and 1-byte payload length.
+TELEMETRY MKR_RTD RTD LITTLE_ENDIAN "MAX31865 RTD sample and Arduino status"
+  APPEND_ID_ITEM ID 8 UINT 6 "Telemetry packet ID"
+  APPEND_ITEM TEMP_C 32 FLOAT "Measured temperature; NaN on fault"
+    UNITS Celsius C
+  APPEND_ITEM RES_OHMS 32 FLOAT "RTD resistance"
+    UNITS Ohms ohm
+  APPEND_ITEM RAW_RTD 16 UINT "Raw MAX31865 15-bit RTD value"
+  APPEND_ITEM FAULT 8 UINT "MAX31865 fault bitmask (0 = OK)"
+    FORMAT_STRING "0x%02X"
+  APPEND_ITEM LED 8 UINT "Built-in LED state"
+    STATE OFF 0
+    STATE ON 1
+  APPEND_ITEM RATE_S 8 UINT "Telemetry interval in seconds"
+    UNITS Seconds s
