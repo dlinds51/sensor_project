@@ -14,3 +14,19 @@ TELEMETRY MKR_RTD RTD LITTLE_ENDIAN "MAX31865 RTD sample and Arduino status"
     STATE ON 1
   APPEND_ITEM RATE_S 8 UINT "Telemetry interval in seconds"
     UNITS Seconds s
+
+# NEW, SEPARATE servo telemetry packet; original RTD packet is unchanged.
+# 200-ms periodic telemetry plus an immediate status packet on valid commands.
+TELEMETRY MKR_RTD SERVO LITTLE_ENDIAN "Servo command and future position feedback"
+  APPEND_ID_ITEM ID 8 UINT 7 "Servo telemetry ID"
+  APPEND_ITEM CMD_DEG 16 INT "Last requested angle, -90 through +90"
+    UNITS Degrees deg
+  APPEND_ITEM FEEDBACK_DEG 16 INT "Measured angle or -32768 when unavailable"
+    UNITS Degrees deg
+  APPEND_ITEM FEEDBACK_VALID 8 UINT "1=position sensor valid, 0=none"
+    STATE NOT_AVAILABLE 0
+    STATE AVAILABLE 1
+  APPEND_ITEM DRIVE_ABS_DEG 8 UINT "Servo.write() absolute angle 0 through 180"
+    UNITS Degrees deg
+  APPEND_ITEM CMD_SEQ 16 UINT "Number of valid servo commands accepted, modulo 65536"
+  APPEND_ITEM FEEDBACK_RAW 16 UINT "ADC raw counts or 65535 without feedback"

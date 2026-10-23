@@ -1,0 +1,32 @@
+# COSMOS built-in widgets: proven fallback without JavaScript dependencies.
+SCREEN AUTO AUTO 0.2
+VERTICAL
+  TITLE "Arduino Servo Control (-90 to +90 degrees)"
+  LABEL "Three-wire servo: reported command is NOT a measured shaft angle."
+  VERTICALBOX "Quick position commands"
+    HORIZONTAL
+      BUTTON "-90 degrees" "api.cmd('MKR_RTD','SET_SERVO',{ANGLE_ABS:0})"
+      BUTTON "ZERO / CENTER" "api.cmd('MKR_RTD','SET_SERVO',{ANGLE_ABS:90})"
+      BUTTON "+90 degrees" "api.cmd('MKR_RTD','SET_SERVO',{ANGLE_ABS:180})"
+    END
+  END
+  VERTICALBOX "Fine positioning - centered coordinate system"
+    LABEL "Enter an angle from -90 through +90 degrees, then click Move."
+    HORIZONTAL
+      NAMED_WIDGET SERVO_OFFSET TEXTFIELD 7 "0"
+      BUTTON "Move to angle" "var t=screen.getNamedWidget('SERVO_OFFSET').text().trim(); var x=Number(t); if(t===''||!Number.isInteger(x)||x < -90||x > 90){alert('Whole degrees -90 to +90 only');}else{api.cmd('MKR_RTD','SET_SERVO',{ANGLE_ABS:x+90});}"
+    END
+    LABEL "Optional true slider: source included in src/ServoSliderWidget.vue (custom widget build)."
+  END
+  VERTICALBOX "Live servo telemetry (5 readings per second)"
+    LABEL "-90                                   0                                   +90"
+    LABELVALUERANGEBAR MKR_RTD SERVO CMD_DEG -90 90 CONVERTED 8 360 30
+    LABELVALUE MKR_RTD SERVO CMD_SEQ
+    LABELVALUE MKR_RTD SERVO FEEDBACK_VALID
+    LABEL "Actual shaft angle unavailable with the current 3-wire servo."
+  END
+  VERTICALBOX "Existing RTD telemetry"
+    LABELVALUE MKR_RTD RTD TEMP_C
+    LABELVALUE MKR_RTD RTD RES_OHMS
+  END
+END

@@ -1,0 +1,19 @@
+# COSMOS Telemetry Viewer screen: MKR_RTD / UART_DEMO
+# This is a 3.3-V TTL UART waveform on D14, not RS-232 voltage levels.
+SCREEN AUTO AUTO 0.5
+VERTICAL
+  TITLE "Arduino Serial Data / Oscilloscope Demo"
+  VERTICALBOX "UART TX on MKR WiFi 1010 - D14 / 9600 baud / 8N1"
+    LABEL "Enter 1 to 32 printable ASCII characters:"
+    NAMED_WIDGET TX_TEXT TEXTFIELD 34 "HELLO COSMOS"
+    BUTTON "Send text to oscilloscope" "var t=screen.getNamedWidget('TX_TEXT').text(); if(t.length<1||t.length>32||/[^ -~]/.test(t)){alert('Use 1-32 printable ASCII characters');}else{api.cmd('MKR_RTD','SEND_TEXT',{TEXT:t});}"
+    LABEL "Scope probe tip: TX/D14 | Scope ground: Arduino GND"
+    LABEL "UART output is 0 to 3.3 V; idle HIGH, start LOW, LSB first"
+  END
+  VERTICALBOX "Temperature telemetry continues to run"
+    LABELVALUE MKR_RTD RTD TEMP_C
+    LABELVALUE MKR_RTD RTD RES_OHMS
+    LABELVALUE MKR_RTD RTD FAULT
+    LABELVALUE MKR_RTD RTD RATE_S
+  END
+END

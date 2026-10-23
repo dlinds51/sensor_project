@@ -11,3 +11,19 @@ COMMAND MKR_RTD SET_PERIOD LITTLE_ENDIAN "Set RTD telemetry period, seconds"
   ID_PARAMETER ID 8 8 UINT 2 2 2 "Set period command ID"
   PARAMETER SECONDS 16 8 UINT 1 60 1 "Telemetry interval in seconds"
     UNITS Seconds s
+
+# Fixed-length command so the existing Windows serial bridge needs NO changes.
+# Wire: 0x11 0x03 [32 bytes of printable ASCII, padded with NUL/0x00].
+# The Arduino emits only the non-NUL bytes on Serial1 TX (D14) at 9600 8N1.
+COMMAND MKR_RTD SEND_TEXT LITTLE_ENDIAN "Transmit an ASCII string on D14/TX to the oscilloscope"
+  PARAMETER SYNC 0 8 UINT 0x11 0x11 0x11 "Command marker"
+  ID_PARAMETER ID 8 8 UINT 3 3 3 "Transmit text command ID"
+  PARAMETER TEXT 16 256 STRING "HELLO COSMOS" "Up to 32 printable ASCII characters"
+
+# Unchanged 3-byte framing. ANGLE_ABS=0..180 translates to -90..+90 deg.
+# Absolute 90 = center; 0 = -90; 180 = +90.
+COMMAND MKR_RTD SET_SERVO LITTLE_ENDIAN "Set standard hobby servo position"
+  PARAMETER SYNC 0 8 UINT 0x11 0x11 0x11 "Command marker"
+  ID_PARAMETER ID 8 8 UINT 4 4 4 "Servo position command ID"
+  PARAMETER ANGLE_ABS 16 8 UINT 0 180 90 "Absolute servo command: 90 is center"
+    UNITS Degrees deg
