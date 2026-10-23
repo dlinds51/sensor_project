@@ -19,7 +19,7 @@ static constexpr uint8_t MAX31865_CS = 7;
 // IMPORTANT: PT100/430-ohm assumptions. Check the RTD AND the Rref
 // resistor fitted on the breakout before taking valid measurements.
 // For a PT1000 with 4300-ohm Rref, use 1000.0f and 4300.0f.
-static constexpr float RTD_NOMINAL = 100.0f;
+static constexpr float RTD_NOMINAL = 100.6f; //adjusted based on icewater test
 static constexpr float RTD_RREF = 430.0f;
 
 static constexpr uint32_t SYNC_PATTERN = 0xABCD1234UL;
